@@ -1,12 +1,21 @@
 from pathlib import Path
+import os
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-q#9czwn1)0$)x@dk_ytraon-i4a8ux*8f)!^7h=-u(itw0x^wk'
 
-DEBUG = True
 
-ALLOWED_HOSTS = []
+#importante porteger el secret key porque cuando ocurre un error muestra todo_ al final de todo esos tres primero son muy utiles
+
+SECRET_KEY = os.environ.get('SECRET_KEY')
+
+DEBUG = os.environ.get('DEBUG')
+
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -18,7 +27,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'core',
+    'blog',
+
+    'tailwind',
+
+    'theme'
 ]
+
+TAILWIND_APP_NAME = 'theme'
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
+NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -35,7 +58,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -47,6 +70,8 @@ TEMPLATES = [
         },
     },
 ]
+
+#wsgi es para hacer que las imagenes se puede entender en el servidor. se usa al final para que tu sitio funcione
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
@@ -64,6 +89,9 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
+
+
+#es para validar las contraseñas
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -96,6 +124,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+
+#para hacer imagenes
 STATIC_URL = 'static/'
 
 # Default primary key field type
